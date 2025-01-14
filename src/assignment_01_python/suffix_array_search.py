@@ -1,8 +1,18 @@
 import time
 from pathlib import Path
+import bisect
 
 import iv2py as iv
 
+
+def sa_search_bisect(sa: list[int], pattern: str, reference: str) -> tuple[int, int] | None:
+    l = bisect.bisect_left(sa, pattern, lo=0, hi=len(sa)-1, key=lambda c: reference[c:c+len(pattern)])
+    r = bisect.bisect_right(sa, pattern, lo=l, hi=len(sa), key=lambda c: reference[c:c+len(pattern)])
+
+    if not reference[sa[l] :].startswith(pattern):
+        return None
+
+    return l,r-1
 
 def sa_search_naive(sa: list[int], pattern: str, reference: str) -> tuple[int, int] | None:
     min_index = 0
@@ -52,7 +62,7 @@ def suffix_array_search(references: Path, reads: Path, num_reads: int = 100, ben
             if read_num%10 == 0:
                 benchmark_file.write(f"sa,{reads!s},{time.time()-start_time},{read_num}\n")
 
-            res = sa_search_naive(sa=sa, pattern=read.seq, reference=reference_text)
+            res = sa_search_bisect(sa=sa, pattern=read.seq, reference=reference_text)
             if res:
                 for _ in range(res[1] + 1 - res[0]):
                     print(read.seq)
