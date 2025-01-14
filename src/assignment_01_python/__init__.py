@@ -1,8 +1,9 @@
 from enum import Enum
 from pathlib import Path
+from typing import Optional
 
 import typer
-from typing_extensions import Annotated, Optional
+from typing_extensions import Annotated
 
 from assignment_01_python.naive_search import naive_search
 from assignment_01_python.suffix_array_search import suffix_array_search

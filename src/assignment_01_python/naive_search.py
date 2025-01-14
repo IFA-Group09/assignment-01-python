@@ -1,5 +1,5 @@
-from pathlib import Path
 import time
+from pathlib import Path
 
 import iv2py as iv
 
@@ -16,7 +16,7 @@ def naive_search(references: Path, reads: Path, num_reads: int = 100, benchmark_
                 break
 
             if read_num%10 == 0:
-                benchmark_file.write(f"naive,{str(reads)},{time.time()-start_time},{read_num}\n")
+                benchmark_file.write(f"naive,{reads!s},{time.time()-start_time},{read_num}\n")
 
             start = reference.seq.find(read.seq)
             while start != -1:
