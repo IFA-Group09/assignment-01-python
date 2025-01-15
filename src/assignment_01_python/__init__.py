@@ -48,10 +48,10 @@ def fm_index_construct(
 def fm_index_search_cmd(
         index: Annotated[Path, typer.Option(help="Path to a FM index")],
         reads: Annotated[Path, typer.Option(help="Path to reads in FASTA format (may be compressed)")],
+        num_reads: Annotated[Optional[int], typer.Option(help="Number number of reads to use")] = 100,
         mismatches: Annotated[int, typer.Option(help="Number of mismatches to allow")] = 0,
 ):
-    print("starting search")
-    fm_index_search(index_path=index, reads_path=reads, mismatches=mismatches)
+    fm_index_search(index_path=index, reads_path=reads, mismatches=mismatches, num_reads=num_reads)
 
 def run() -> None:
     app()
