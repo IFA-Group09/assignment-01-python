@@ -1,6 +1,6 @@
 import iv2py as iv
 
-from assignment_01_python.suffix_array_search import print_suffixes, sa_search_naive, sa_search_bisect
+from assignment_01_python.suffix_array_search import print_suffixes, sa_search_bisect, sa_search_naive
 
 
 def test_sa_search_naive():

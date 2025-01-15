@@ -5,26 +5,53 @@ from typing import Optional
 import typer
 from typing_extensions import Annotated
 
+from assignment_01_python.fm_index import fm_construct_index, fm_index_search
 from assignment_01_python.naive_search import naive_search
 from assignment_01_python.suffix_array_search import suffix_array_search
 
+app = typer.Typer()
 
-class SearchMethod(str, Enum):
-    naive = "naive"
-    suffix_array = "suffix_array"
+naive_app = typer.Typer()
+app.add_typer(naive_app, name="naive")
+
+sa_app = typer.Typer()
+app.add_typer(sa_app, name="suffix_array")
+
+fm_index_app = typer.Typer()
+app.add_typer(fm_index_app, name="fm_index")
 
 
-def main(
-    reference: Annotated[Path, typer.Option(help="Path to a reference genome in FASTA format (may be compressed)")],
-    reads: Annotated[Path, typer.Option(help="Path to reads in FASTA format (may be compressed)")],
-    search_method: Annotated[SearchMethod, typer.Option(help="Search method to use")] = SearchMethod.naive,
-    num_reads: Annotated[Optional[int], typer.Option(help="Number number of reads to use")] = 100,
+@naive_app.command("search")
+def naive_search(
+reference: Annotated[Path, typer.Option(help="Path to a reference genome in FASTA format (may be compressed)")],
+reads: Annotated[Path, typer.Option(help="Path to reads in FASTA format (may be compressed)")],
+num_reads: Annotated[Optional[int], typer.Option(help="Number number of reads to use")] = 100,
 ):
-    if search_method is SearchMethod.naive:
-        naive_search(references=reference, reads=reads, num_reads=num_reads)
-    else:
-        suffix_array_search(references=reference, reads=reads, num_reads=num_reads)
+    naive_search(references=reference, reads=reads, num_reads=num_reads)
 
+@sa_app.command("search")
+def sa_search(
+reference: Annotated[Path, typer.Option(help="Path to a reference genome in FASTA format (may be compressed)")],
+reads: Annotated[Path, typer.Option(help="Path to reads in FASTA format (may be compressed)")],
+num_reads: Annotated[Optional[int], typer.Option(help="Number number of reads to use")] = 100,
+):
+    suffix_array_search(references=reference, reads=reads, num_reads=num_reads)
+
+@fm_index_app.command("construct")
+def fm_index_construct(
+        reference: Annotated[Path, typer.Option(help="Path to a reference genome in FASTA format (may be compressed)")],
+        output: Annotated[Path, typer.Option(help="Path to save constructed FM index")],
+):
+    fm_construct_index(reference_path=reference, output_path=output)
+
+@fm_index_app.command("search")
+def fm_index_search_cmd(
+        index: Annotated[Path, typer.Option(help="Path to a FM index")],
+        reads: Annotated[Path, typer.Option(help="Path to reads in FASTA format (may be compressed)")],
+        num_reads: Annotated[Optional[int], typer.Option(help="Number number of reads to use")] = 100,
+        mismatches: Annotated[int, typer.Option(help="Number of mismatches to allow")] = 0,
+):
+    fm_index_search(index_path=index, reads_path=reads, mismatches=mismatches, num_reads=num_reads)
 
 def run() -> None:
-    typer.run(main)
+    app()

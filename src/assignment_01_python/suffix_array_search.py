@@ -1,8 +1,9 @@
-import time
-from pathlib import Path
 import bisect
+from pathlib import Path
 
 import iv2py as iv
+
+from assignment_01_python.benchmark import Benchmark
 
 
 def sa_search_bisect(sa: list[int], pattern: str, reference: str) -> tuple[int, int] | None:
@@ -46,11 +47,7 @@ def print_suffixes(sa, reference):
 
 
 def suffix_array_search(references: Path, reads: Path, num_reads: int = 100, benchmark_path: Path = Path("./python_benchmark.csv")) -> None:
-    benchmark_file = open(benchmark_path, "a")
-    if benchmark_path.stat().st_size == 0:
-        benchmark_file.write("method,reads_file,time,read_n\n")
-
-    start_time = time.time()
+    benchmark = Benchmark(method="sa", reads=reads)
     for reference in iv.fasta.reader(file=str(references)):
         reference_text = reference.seq + "$"
         sa = iv.create_suffixarray(reference_text)
@@ -59,8 +56,8 @@ def suffix_array_search(references: Path, reads: Path, num_reads: int = 100, ben
             if read_num > num_reads:
                 break
 
-            if read_num%10 == 0:
-                benchmark_file.write(f"sa,{reads!s},{time.time()-start_time},{read_num}\n")
+            if read_num%benchmark.interval == 0:
+                benchmark.write(read_num)
 
             res = sa_search_bisect(sa=sa, pattern=read.seq, reference=reference_text)
             if res:
