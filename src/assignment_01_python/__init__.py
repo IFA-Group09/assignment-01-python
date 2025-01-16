@@ -22,7 +22,7 @@ app.add_typer(fm_index_app, name="fm_index")
 
 
 @naive_app.command("search")
-def naive_search(
+def naive_search_cmd(
 reference: Annotated[Path, typer.Option(help="Path to a reference genome in FASTA format (may be compressed)")],
 reads: Annotated[Path, typer.Option(help="Path to reads in FASTA format (may be compressed)")],
 num_reads: Annotated[Optional[int], typer.Option(help="Number number of reads to use")] = 100,
@@ -30,7 +30,7 @@ num_reads: Annotated[Optional[int], typer.Option(help="Number number of reads to
     naive_search(references=reference, reads=reads, num_reads=num_reads)
 
 @sa_app.command("search")
-def sa_search(
+def sa_search_cmd(
 reference: Annotated[Path, typer.Option(help="Path to a reference genome in FASTA format (may be compressed)")],
 reads: Annotated[Path, typer.Option(help="Path to reads in FASTA format (may be compressed)")],
 num_reads: Annotated[Optional[int], typer.Option(help="Number number of reads to use")] = 100,
@@ -38,7 +38,7 @@ num_reads: Annotated[Optional[int], typer.Option(help="Number number of reads to
     suffix_array_search(references=reference, reads=reads, num_reads=num_reads)
 
 @fm_index_app.command("construct")
-def fm_index_construct(
+def fm_index_construct_cmd(
         reference: Annotated[Path, typer.Option(help="Path to a reference genome in FASTA format (may be compressed)")],
         output: Annotated[Path, typer.Option(help="Path to save constructed FM index")],
 ):

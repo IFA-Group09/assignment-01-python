@@ -9,7 +9,7 @@ def fm_index_search(index_path: Path, reads_path: Path, mismatches: int, num_rea
     index = iv.fmindex(path=index_path)
     reads_processed = 0
 
-    benchmark = Benchmark(method="fm_search", reads=reads_path)
+    benchmark = Benchmark(method="fm_search", reference=index_path, reads=reads_path)
     while reads_processed < num_reads:
         for read in iv.fasta.reader(file=reads_path):
             for result in index.search(read.seq, k=mismatches):
