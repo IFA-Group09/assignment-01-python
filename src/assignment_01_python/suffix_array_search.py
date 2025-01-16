@@ -46,20 +46,22 @@ def print_suffixes(sa, reference):
         print(reference[v:])
 
 
-def suffix_array_search(references: Path, reads: Path, num_reads: int = 100, benchmark_path: Path = Path("./python_benchmark.csv")) -> None:
-    benchmark = Benchmark(method="sa", reads=reads)
+def suffix_array_search(references: Path, reads: Path, num_reads: int = 100) -> None:
+    reference_text = ""
     for reference in iv.fasta.reader(file=str(references)):
-        reference_text = reference.seq + "$"
-        sa = iv.create_suffixarray(reference_text)
+        reference_text += reference.seq
+    reference_text += "$"
+    sa = iv.create_suffixarray(reference_text)
+    benchmark = Benchmark(method="sa", reference=references, reads=reads)
+    for read_num, read in enumerate(iv.fasta.reader(file=str(reads))):
+        if read_num > num_reads:
+            break
 
-        for read_num, read in enumerate(iv.fasta.reader(file=str(reads))):
-            if read_num > num_reads:
-                break
+        res = sa_search_bisect(sa=sa, pattern=read.seq, reference=reference_text)
+        if res:
+            for _ in range(res[1] + 1 - res[0]):
+                print(read.seq)
 
-            if read_num%benchmark.interval == 0:
-                benchmark.write(read_num)
+        if read_num%benchmark.interval == 0:
+            benchmark.write(read_num)
 
-            res = sa_search_bisect(sa=sa, pattern=read.seq, reference=reference_text)
-            if res:
-                for _ in range(res[1] + 1 - res[0]):
-                    print(read.seq)
