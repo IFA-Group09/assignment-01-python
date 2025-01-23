@@ -24,7 +24,7 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = ["iv2py>=0.6.1", "typer"]
+dependencies = ["iv2py>=0.6.1", "typer", "scipy"]
 
 [project.urls]
 Documentation = "https://github.com/Matthew Martin/assignment-01-python#readme"
