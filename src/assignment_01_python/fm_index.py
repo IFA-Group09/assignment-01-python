@@ -6,7 +6,7 @@ from scipy.spatial import distance
 from assignment_01_python.benchmark import Benchmark
 
 
-def fm_index_search(index_path: Path, reads_path: Path, mismatches: int, num_reads: int) -> None:
+def fm_index_search(index_path: Path, reads_path: Path, mismatches: int, num_reads: int, quiet: bool) -> None:
     index = iv.fmindex(path=index_path)
     reads_processed = 0
 
@@ -14,7 +14,8 @@ def fm_index_search(index_path: Path, reads_path: Path, mismatches: int, num_rea
     while reads_processed < num_reads:
         for read in iv.fasta.reader(file=reads_path):
             for result in index.search(read.seq, k=mismatches):
-                print(result)
+                if not quiet:
+                    print(result)
             reads_processed += 1
             if reads_processed % benchmark.interval == 0:
                 benchmark.write(reads_processed)
@@ -35,7 +36,7 @@ def split_read(read: str, pieces: int) -> list[str]:
 def verify(reference: str, read: str, start_pos: int, mismatches: int) -> bool:
     return distance.hamming(list(read), list(reference[start_pos:start_pos+len(read)])) <= mismatches/len(read)
 
-def fm_index_pigeon_search(index_path: Path, reads_path: Path, reference_path: Path, mismatches: int, num_reads: int) -> None:
+def fm_index_pigeon_search(index_path: Path, reads_path: Path, reference_path: Path, mismatches: int, num_reads: int, quiet: bool) -> None:
     index = iv.fmindex(path=index_path)
     references = [ reference.seq for reference in iv.fasta.reader(file=reference_path) ]
 
@@ -73,11 +74,12 @@ def fm_index_pigeon_search(index_path: Path, reads_path: Path, reference_path: P
                         matched_pieces += 1
 
                 if matched_pieces == len(read_parts):
-                    print(f"Exact match for {read.seq} at {match_pos}")
-                    break
+                    if not quiet:
+                        print(f"{read.seq},{(match_pos-((piece_size*read_part_n)+first_offset))}")
                 elif matched_pieces == len(read_parts)-1:
                     if verify(reference=references[ref_n], read=read.seq, start_pos=(match_pos-((piece_size*read_part_n)+first_offset)), mismatches=mismatches):
-                        print(f"Inexact match for {read.seq} at {match_pos}")
+                        if not quiet:
+                            print(f"{read.seq},{(match_pos-((piece_size*read_part_n)+first_offset))}")
 
             reads_processed += 1
             if reads_processed % benchmark.interval == 0:

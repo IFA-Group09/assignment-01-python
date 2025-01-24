@@ -46,7 +46,7 @@ def print_suffixes(sa, reference):
         print(reference[v:])
 
 
-def suffix_array_search(references: Path, reads: Path, num_reads: int = 100) -> None:
+def suffix_array_search(references: Path, reads: Path, num_reads: int, quiet: bool) -> None:
     reference_text = ""
     for reference in iv.fasta.reader(file=str(references)):
         reference_text += reference.seq
@@ -60,7 +60,8 @@ def suffix_array_search(references: Path, reads: Path, num_reads: int = 100) -> 
         res = sa_search_bisect(sa=sa, pattern=read.seq, reference=reference_text)
         if res:
             for _ in range(res[1] + 1 - res[0]):
-                print(read.seq)
+                if not quiet:
+                    print(read.seq)
 
         if read_num%benchmark.interval == 0:
             benchmark.write(read_num)
