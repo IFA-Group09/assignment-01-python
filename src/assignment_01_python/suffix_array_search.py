@@ -51,7 +51,9 @@ def suffix_array_search(references: Path, reads: Path, num_reads: int, quiet: bo
     for reference in iv.fasta.reader(file=str(references)):
         reference_text += reference.seq
     reference_text += "$"
+    construct_benchmark = Benchmark(method="sa_construct", reference=references, reads=Path(""))
     sa = iv.create_suffixarray(reference_text)
+    construct_benchmark.write(0)
     benchmark = Benchmark(method="sa", reference=references, reads=reads)
     for read_num, read in enumerate(iv.fasta.reader(file=str(reads))):
         if read_num > num_reads:

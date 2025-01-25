@@ -89,5 +89,7 @@ def fm_index_pigeon_search(index_path: Path, reads_path: Path, reference_path: P
 
 def fm_construct_index(reference_path: Path, output_path: Path) -> None:
     references = [ reference.seq for reference in iv.fasta.reader(file=reference_path) ]
+    benchmark = Benchmark(method="fm_construct", reference=reference_path, reads=Path(""))
     index = iv.fmindex(reference=references, samplingRate=16)
+    benchmark.write(0)
     index.save(str(output_path))
