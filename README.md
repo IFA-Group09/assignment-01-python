@@ -1,19 +1,28 @@
-# assignment-01-python
+# implementing-search-python 
 
 ## Installation
 
 ```console
-pip install assignment-01-python
+pip install . 
 ```
-
 
 ## Execution
 
 ```console
-assignment-01-python --reference REFERENCE_FILE.FA.GZ --reads READS_FILE.FA.GZ
+implementing-search-python COMMAND --reference REFERENCE_FILE.FA.GZ --reads READS_FILE.FA.GZ
 ```
 ![Usage](./data/usage.png?raw=true)
 
+
+`COMMAND` can be any of:
+* `naive search --reference REFERENCE_FILE.FA.GZ --reads READS_FILE.FA.GZ`
+* ` suffix_array search --reference REFERENCE_FILE.FA.GZ --reads READS_FILE.FA.GZ`
+* `fm_index construct --reference REFERENCE_FILE.FA.GZ --output OUTPUT_FILE.IDX`
+* ` fm_index search --index INDEX.IDX --reads READS_FILE.FA.GZ`
+
+The `fm_index search` command additionally supports `--mismatches` and `--use-pigeon`.
+
+All search commands have a `--quiet` flag which supresses printing match results.
 
 
 ## Running linter

@@ -5,9 +5,9 @@ from typing import Optional
 import typer
 from typing_extensions import Annotated
 
-from assignment_01_python.fm_index import fm_construct_index, fm_index_pigeon_search, fm_index_search
-from assignment_01_python.naive_search import naive_search
-from assignment_01_python.suffix_array_search import suffix_array_search
+from implementing_search_python.fm_index import fm_construct_index, fm_index_pigeon_search, fm_index_search
+from implementing_search_python.naive_search import naive_search
+from implementing_search_python.suffix_array_search import suffix_array_search
 
 app = typer.Typer()
 

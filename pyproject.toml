@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "assignment-01-python"
+name = "implementing-search-python"
 dynamic = ["version"]
 description = ''
 readme = "README.md"
@@ -27,34 +27,34 @@ classifiers = [
 dependencies = ["iv2py>=0.6.1", "typer", "scipy"]
 
 [project.urls]
-Documentation = "https://github.com/Matthew Martin/assignment-01-python#readme"
-Issues = "https://github.com/Matthew Martin/assignment-01-python/issues"
-Source = "https://github.com/Matthew Martin/assignment-01-python"
+Documentation = "https://github.com/IFA-Group09/implementing-search-python#readme"
+Issues = "https://github.com/IFA-Group09/implementing-search-python/issues"
+Source = "https://github.com/IFA-Group09/implementing-search-python"
 
 [tool.hatch.version]
-path = "src/assignment_01_python/__about__.py"
+path = "src/implementing_search_python/__about__.py"
 
 [tool.hatch.envs.types]
 extra-dependencies = [
   "mypy>=1.0.0",
 ]
 [tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/assignment_01_python tests}"
+check = "mypy --install-types --non-interactive {args:src/implementing-search-python tests}"
 
 [project.scripts]
-assignment-01-python = "assignment_01_python:run"
+implementing-search-python = "implementing_search_python:run"
 
 [tool.coverage.run]
-source_pkgs = ["assignment_01_python", "tests"]
+source_pkgs = ["implementing_search_python", "tests"]
 branch = true
 parallel = true
 omit = [
-  "src/assignment_01_python/__about__.py",
+  "src/implementing-search-python/__about__.py",
 ]
 
 [tool.coverage.paths]
-assignment_01_python = ["src/assignment_01_python", "*/assignment-01-python/src/assignment_01_python"]
-tests = ["tests", "*/assignment-01-python/tests"]
+implementing_search_python = ["src/implementing_search_python", "*/implementing_search_python/src/implementing_search_python"]
+tests = ["tests", "*/implementing-search-python/tests"]
 
 [tool.coverage.report]
 exclude_lines = [

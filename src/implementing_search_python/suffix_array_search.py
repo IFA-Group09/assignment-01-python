@@ -3,7 +3,7 @@ from pathlib import Path
 
 import iv2py as iv
 
-from assignment_01_python.benchmark import Benchmark
+from implementing_search_python.benchmark import Benchmark
 
 
 def sa_search_bisect(sa: list[int], pattern: str, reference: str) -> tuple[int, int] | None:
