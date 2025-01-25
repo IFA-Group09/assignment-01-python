@@ -11,7 +11,7 @@ echo "method,reference_file,reads_file,read_num,mem_usage" > $MEM_OUTPUT_FILE
 read_nums=(10)
 for read_num in "${read_nums[@]}"
 do
-	mem_usage=`\time -f "%M"  assignment-01-python naive search --reads $READS_FILE --reference $REFERENCE_FILE --num-reads $read_num 2>&1 | tail -n 1`
+	mem_usage=`\time -f "%M"  implementing-search-python naive search --reads $READS_FILE --reference $REFERENCE_FILE --num-reads $read_num 2>&1 | tail -n 1`
 	echo "naive,${REFERENCE_FILE},${READS_FILE},${read_num},${mem_usage}" >> $MEM_OUTPUT_FILE
 done
 
@@ -21,7 +21,7 @@ done
 read_nums=(1000 10000)
 for read_num in "${read_nums[@]}"
 do
-	mem_usage=`\time -f "%M" assignment-01-python suffix_array search --reads $READS_FILE --reference $REFERENCE_FILE --num-reads $read_num  2>&1 | tail -n 1`
+	mem_usage=`\time -f "%M" implementing-search-python suffix_array search --reads $READS_FILE --reference $REFERENCE_FILE --num-reads $read_num  2>&1 | tail -n 1`
 	echo "sa,${REFERENCE_FILE},${READS_FILE},${read_num},${mem_usage}" >> $MEM_OUTPUT_FILE
 done
 
@@ -29,7 +29,7 @@ done
 read_nums=(1000 10000 100000 1000000)
 for read_num in "${read_nums[@]}"
 do
-	mem_usage=`\time -f "%M" assignment-01-python fm_index search --reads $READS_FILE --index $FMINDEX_FILE --num-reads $read_num 2>&1 | tail -n 1`
+	mem_usage=`\time -f "%M" implementing-search-python fm_index search --reads $READS_FILE --index $FMINDEX_FILE --num-reads $read_num 2>&1 | tail -n 1`
 	echo "fm,${FMINDEX_FILE},${READS_FILE},${read_num},${mem_usage}" >> $MEM_OUTPUT_FILE
 done
 
@@ -37,6 +37,6 @@ done
 rm python_benchmark.csv
 
 # Now collect processing per read num
-assignment-01-python naive search --reads $READS_FILE --reference $REFERENCE_FILE --num-reads 1000
-assignment-01-python suffix_array search --reads $READS_FILE --reference $REFERENCE_FILE --num-reads 10011 
-assignment-01-python fm_index search --reads $READS_FILE --index $FMINDEX_FILE --num-reads 1000011
+implementing-search-python naive search --reads $READS_FILE --reference $REFERENCE_FILE --num-reads 1000
+implementing-search-python suffix_array search --reads $READS_FILE --reference $REFERENCE_FILE --num-reads 10011 
+implementing-search-python fm_index search --reads $READS_FILE --index $FMINDEX_FILE --num-reads 1000011

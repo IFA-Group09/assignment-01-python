@@ -3,7 +3,7 @@ from pathlib import Path
 import iv2py as iv
 from scipy.spatial import distance
 
-from assignment_01_python.benchmark import Benchmark
+from implementing_search_python.benchmark import Benchmark
 
 
 def fm_index_search(index_path: Path, reads_path: Path, mismatches: int, num_reads: int, quiet: bool) -> None:
